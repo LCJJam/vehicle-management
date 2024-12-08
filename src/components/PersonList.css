@@ -1,0 +1,39 @@
+.person-list {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.person-list h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.person-list-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.person-list-items li {
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.person-list-items li.dragging {
+  background-color: #e0f7fa;
+  border-color: #00acc1;
+}
+
+.add-person-input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}

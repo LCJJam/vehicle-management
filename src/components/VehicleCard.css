@@ -1,0 +1,74 @@
+.vehicle-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.time-edit {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.time-edit label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.time-input {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.group {
+  margin-bottom: 16px;
+}
+
+.group h4 {
+  margin-bottom: 8px;
+  font-size: 1em;
+  color: #333;
+}
+
+.drop-zone {
+  min-height: 50px;
+  border: 2px dashed #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background-color: #fff;
+}
+
+.drop-zone.filled {
+  background-color: #e7f7e7; /* 초록색 배경 */
+}
+
+.drop-zone.empty {
+  background-color: #fff; /* 기본 흰색 배경 */
+}
+
+.person-item {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.person-item:hover {
+  background-color: #ddd;
+}

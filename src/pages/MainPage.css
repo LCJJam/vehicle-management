@@ -1,0 +1,227 @@
+/* Main layout */
+.main-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header button {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.header button:hover {
+  background-color: #004096;
+}
+
+/* Navbar Overlay */
+.navbar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100%;
+  background-color: #343a40;
+  color: #fff;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.navbar-overlay h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #f8f9fa;
+}
+
+.navbar-overlay ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-overlay ul li {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-overlay ul li button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.navbar-overlay ul li button:hover {
+  background-color: #0056b3;
+}
+
+.navbar-overlay input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+.navbar-overlay button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.navbar-overlay button:hover {
+  background-color: #0056b3;
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Vehicle Container */
+.vehicle-container {
+  flex: 3;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.vehicle-container .vehicle-card {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.vehicle-card h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #343a40;
+}
+
+.vehicle-card .group {
+  margin-bottom: 15px;
+}
+
+.vehicle-card .group h3 {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #6c757d;
+}
+
+.vehicle-card .group .person-list {
+  border: 1px dashed #ced4da;
+  border-radius: 5px;
+  padding: 10px;
+  min-height: 50px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Person List */
+.person-lists {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.person-lists .person-list {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.person-list h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #343a40;
+}
+
+.person-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.person-list ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.person-list ul li:last-child {
+  border-bottom: none;
+}
+
+.person-list ul li button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.person-list ul li button:hover {
+  background-color: #b02a37;
+}
+
+.person-list input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 10px 0;
+  background-color: #343a40;
+  color: white;
+}

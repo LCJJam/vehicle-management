@@ -1,0 +1,13 @@
+.person-item {
+  padding: 5px 10px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+
+.person-item.dragging {
+  opacity: 0.5;
+}
