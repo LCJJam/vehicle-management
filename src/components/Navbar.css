@@ -1,15 +1,17 @@
+/* Navbar.css */
 .navbar {
   position: fixed;
   top: 0;
   left: -300px;
   width: 300px;
   height: 100%;
-  background-color: #f8f9fa;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   transition: left 0.3s ease;
   padding: 20px;
   box-sizing: border-box;
   z-index: 1000;
+  border-right: 1px solid #ddd;
 }
 
 .navbar.visible {
@@ -17,14 +19,19 @@
 }
 
 .navbar h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: right;
+  color: #333;
 }
 
 .navbar-content input {
   width: 100%;
-  padding: 5px;
+  padding: 8px;
   margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   box-sizing: border-box;
 }
 
@@ -35,7 +42,21 @@
   color: white;
   border: none;
   cursor: pointer;
-  margin-bottom: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+
+  &.delete-record-btn {
+    margin-left: 8px;
+    padding: 10px 10px;
+    font-size: 12px;
+    color: white;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 4px;
+    justify-content: space-between;
+    cursor: pointer;
+  }
 }
 
 .navbar-content button:hover {
@@ -45,38 +66,32 @@
 .record-list {
   list-style: none;
   padding: 0;
+  margin-top: 10px;
 }
 
 .record-list li {
-  padding: 10px;
-  background: #e9ecef;
-  margin-bottom: 5px;
+  padding: 12px;
+  background: #f8f9fa;
+  margin-bottom: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.1s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
 }
 
 .record-list li:hover {
-  background: #ced4da;
+  background: #e9ecef;
+  transform: translateX(3px);
 }
 
 .record-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 5px 0;
-}
-
-.delete-record-btn {
-  margin-left: 10px;
-  padding: 3px 6px; /* 기존보다 작게 조정 */
-  font-size: 12px; /* 글자 크기를 줄임 */
-  color: white;
-  background-color: red;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .delete-record-btn:hover {
-  background-color: darkred;
+  background-color: #c82333;
 }

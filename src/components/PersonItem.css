@@ -1,13 +1,18 @@
 .person-item {
-  padding: 5px 10px;
-  background-color: #f4f4f4;
-  border: 1px solid #ccc;
+  display: inline-block;
+  background: #eaf4ff;
+  border: 1px solid #007bff;
   border-radius: 5px;
-  margin-bottom: 5px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
   text-align: center;
-  transition: opacity 0.3s;
+  cursor: pointer;
 }
 
 .person-item.dragging {
   opacity: 0.5;
+}
+
+.person-item:hover {
+  background-color: #d0e7ff;
 }

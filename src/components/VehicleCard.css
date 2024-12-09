@@ -1,74 +1,65 @@
 .vehicle-card {
-  border: 1px solid #ccc;
+  background: white;
+  border: 1px solid #dcdcdc;
   border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 300px;
+  max-width: 300px;
 }
 
 .vehicle-title {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.time-edit {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
+  color: #007bff;
+  margin-bottom: 10px;
 }
 
 .time-edit label {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.9em;
-  color: #333;
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
 }
 
 .time-input {
-  padding: 4px 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.group {
-  margin-bottom: 16px;
+  width: 60%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
 }
 
 .group h4 {
-  margin-bottom: 8px;
-  font-size: 1em;
-  color: #333;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .drop-zone {
-  min-height: 50px;
-  border: 2px dashed #ddd;
-  border-radius: 4px;
-  padding: 8px;
+  border: 2px dashed #dcdcdc;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  min-height: 80px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  background-color: #fff;
+  gap: 10px;
+  align-items: flex-start;
 }
 
-.drop-zone.filled {
-  background-color: #e7f7e7; /* 초록색 배경 */
+.person-item-container {
+  flex: 0 0 22%;
+  box-sizing: border-box;
 }
 
 .drop-zone.empty {
-  background-color: #fff; /* 기본 흰색 배경 */
+  justify-content: center;
+  align-items: center;
 }
 
-.person-item {
-  padding: 8px 12px;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.person-item:hover {
-  background-color: #ddd;
+.drop-zone.filled {
+  overflow-y: auto;
 }

@@ -39,6 +39,15 @@ function MainPage() {
       firstGroup: [],
       secondGroup: [],
     },
+    {
+      id: "vehicle4",
+      title: "4 호차",
+      departureTime: "13:00",
+      arrivalTime: "14:30",
+      drivers: [],
+      firstGroup: [],
+      secondGroup: [],
+    },
   ]);
   const [savedRecords, setSavedRecords] = useState([]);
   const [isNavbarVisible, setIsNavbarVisible] = useState(false);

@@ -1,8 +1,16 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useEffect } from "react";
 import { useDrag } from "react-dnd";
 import "./PersonList.css";
 
 const PersonList = ({ type, title, people, setPeople, saveData }) => {
+  useEffect(() => {
+    // 이름순으로 정렬
+    const sortedPeople = [...people].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    setPeople(sortedPeople);
+  }, [people, setPeople]);
+
   // 항목 추가
   const handleAdd = (e) => {
     if (e.key === "Enter" && e.target.value.trim()) {

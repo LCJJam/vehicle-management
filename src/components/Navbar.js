@@ -37,12 +37,14 @@ function Navbar({
               <span onClick={() => loadRecord(index)}>
                 {record.title} ({record.date})
               </span>
-              <button
-                className="delete-record-btn"
-                onClick={() => removeRecord(index)}
-              >
-                삭제
-              </button>
+              <span>
+                <button
+                  className="delete-record-btn"
+                  onClick={() => removeRecord(index)}
+                >
+                  삭제
+                </button>
+              </span>
             </li>
           ))}
         </ul>
