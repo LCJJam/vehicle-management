@@ -2,29 +2,32 @@ import React, { memo, useCallback } from "react";
 import { useDrag } from "react-dnd";
 import "./PersonList.css";
 
-const ItemType = "PERSON";
-
-const PersonList = ({ type, title, people, setPeople }) => {
+const PersonList = ({ type, title, people, setPeople, saveData }) => {
   // 항목 추가
-  const handleAdd = useCallback(
-    (e) => {
-      if (e.key === "Enter" && e.target.value.trim()) {
-        const newPerson = {
-          id: `${type}_${Date.now()}`,
-          name: e.target.value.trim(),
-        };
+  const handleAdd = (e) => {
+    if (e.key === "Enter" && e.target.value.trim()) {
+      const newPerson = {
+        id: `${type}_${Date.now()}`,
+        name: e.target.value.trim(),
+      };
 
-        if (people.some((person) => person.name === newPerson.name)) {
-          console.warn("Duplicate name detected:", newPerson.name);
-          return;
-        }
-
-        setPeople((prev) => [...prev, newPerson]);
-        e.target.value = "";
+      // 중복 확인
+      if (people.some((person) => person.name === newPerson.name)) {
+        console.warn("Duplicate name detected:", newPerson.name);
+        return;
       }
-    },
-    [setPeople, people, type]
-  );
+
+      // 상태 업데이트 및 데이터 저장
+      setPeople((prev) => {
+        const updated = [...prev, newPerson];
+        console.log(updated);
+        saveData(updated); // 변경된 데이터를 저장
+        return updated;
+      });
+
+      e.target.value = ""; // 입력 필드 초기화
+    }
+  };
 
   return (
     <div className="person-list">
@@ -36,6 +39,7 @@ const PersonList = ({ type, title, people, setPeople }) => {
             person={person}
             from={type}
             setPeople={setPeople}
+            saveData={saveData} // DraggablePerson에 저장 함수 전달
           />
         ))}
       </ul>
@@ -49,24 +53,29 @@ const PersonList = ({ type, title, people, setPeople }) => {
   );
 };
 
-const DraggablePerson = memo(({ person, from, setPeople }) => {
+const DraggablePerson = memo(({ person, from, setPeople, saveData }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemType,
+    type: "PERSON",
     item: { name: person.name, from },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
 
-  const handleRemove = useCallback(() => {
-    setPeople((prev) => prev.filter((p) => p.id !== person.id));
-  }, [person.id, setPeople]);
+  // 항목 제거
+  const handleRemove = () => {
+    setPeople((prev) => {
+      const updated = prev.filter((p) => p.id !== person.id);
+      saveData(updated); // 변경된 데이터를 저장
+      return updated;
+    });
+  };
 
   return (
     <li
       ref={drag}
       className={`draggable-person ${isDragging ? "dragging" : ""}`}
-      onClick={handleRemove}
+      onClick={handleRemove} // 클릭 시 삭제
     >
       {person.name}
     </li>

@@ -4,6 +4,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import VehicleCard from "../components/VehicleCard";
 import PersonList from "../components/PersonList";
 import html2canvas from "html2canvas";
+import Navbar from "../components/Navbar";
 import "./MainPage.css";
 
 function MainPage() {
@@ -39,46 +40,109 @@ function MainPage() {
       secondGroup: [],
     },
   ]);
+  const [savedRecords, setSavedRecords] = useState([]);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(false);
 
   // 데이터 로드
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const driversData = JSON.parse(
-          await window.electronAPI.readFile("drivers")
-        );
-        const passengersData = JSON.parse(
-          await window.electronAPI.readFile("passengers")
-        );
-        setDrivers(driversData);
-        setPassengers(passengersData);
-      } catch (err) {
-        console.error("Failed to load data:", err);
-      }
-    };
+  const loadData = async () => {
+    try {
+      const driversData = JSON.parse(
+        await window.electronAPI.readFile("drivers.json")
+      );
+      const passengersData = JSON.parse(
+        await window.electronAPI.readFile("passengers.json")
+      );
+      const savedRecordsData = JSON.parse(
+        await window.electronAPI.readFile("savedRecords.json")
+      );
 
+      setDrivers(driversData || []);
+      setPassengers(passengersData || []);
+      setSavedRecords(savedRecordsData || []);
+    } catch (err) {
+      console.error("Failed to load data:", err);
+    }
+  };
+
+  // 컴포넌트 마운트 시 데이터 로드
+  React.useEffect(() => {
     loadData();
   }, []);
 
-  // 데이터 저장
-  useEffect(() => {
-    const saveData = async () => {
-      try {
-        await window.electronAPI.writeFile(
-          "drivers",
-          JSON.stringify(drivers, null, 2)
+  const savePassenger = async (passengers) => {
+    try {
+      // Passengers 저장
+      if (Array.isArray(passengers)) {
+        const uniquePassengers = passengers.filter(
+          (passenger, index, self) =>
+            index === self.findIndex((p) => p.id === passenger.id)
         );
-        await window.electronAPI.writeFile(
-          "passengers",
-          JSON.stringify(passengers, null, 2)
-        );
-      } catch (err) {
-        console.error("Failed to save data:", err);
+        saveToFile("passengers.json", uniquePassengers);
+        console.log("Passengers saved successfully.");
       }
-    };
+    } catch (err) {
+      console.error("Failed to save Passenger:", err);
+    }
+  };
 
-    saveData();
-  }, [drivers, passengers]);
+  const saveDriver = async (drivers) => {
+    try {
+      // Drivers 저장
+      if (Array.isArray(drivers)) {
+        const uniqueDrivers = drivers.filter(
+          (driver, index, self) =>
+            index === self.findIndex((d) => d.id === driver.id)
+        );
+        saveToFile("drivers.json", uniqueDrivers);
+        console.log("Drivers saved successfully.");
+      }
+    } catch (err) {
+      console.error("Failed to save Driver:", err);
+    }
+  };
+
+  const saveRecord = async (title) => {
+    const newRecord = {
+      title,
+      date: new Date().toISOString().split("T")[0],
+      vehicles: [...vehicles],
+    };
+    const updatedRecords = [...savedRecords, newRecord];
+
+    try {
+      // SavedRecords 저장
+      if (Array.isArray(updatedRecords)) {
+        const uniqueRecords = updatedRecords.filter(
+          (record, index, self) =>
+            index === self.findIndex((r) => r.title === record.title)
+        );
+        saveToFile("savedRecords.json", uniqueRecords);
+        console.log("SavedRecords saved successfully.");
+      }
+
+      setSavedRecords(updatedRecords);
+    } catch (err) {
+      console.error("Failed to save Records:", err);
+    }
+
+    alert("배차 기록이 저장되었습니다!");
+  };
+
+  const saveToFile = async (fileName, data) => {
+    try {
+      await window.electronAPI.writeFile(
+        fileName,
+        JSON.stringify(data, null, 2)
+      );
+      console.log(`${fileName} saved successfully.`);
+    } catch (err) {
+      console.error(`Failed to save ${fileName}:`, err);
+    }
+  };
+
+  const toggleNavbar = () => {
+    setIsNavbarVisible((prev) => !prev);
+  };
 
   const updateTime = (id, type, newTime) => {
     setVehicles((prevVehicles) =>
@@ -96,33 +160,27 @@ function MainPage() {
       toGroup,
     });
 
-    // 데이터가 이동하지 않을 때
     if (!name || (!toGroup && !toVehicleId)) {
       console.log("No movement detected:", name, fromGroup);
       return;
     }
 
-    // fromGroup이 drivers 또는 passengers일 경우 처리
     if (fromGroup === "drivers" || fromGroup === "passengers") {
       const setSource = fromGroup === "drivers" ? setDrivers : setPassengers;
-
-      // 데이터를 삭제하지 않고 그대로 유지
-      console.log(`Keeping ${name} in ${fromGroup}`);
+      setSource((prev) => prev.filter((person) => person !== name));
     } else {
-      // 차량 그룹 내에서 이동 시 데이터 복사 (삭제 X)
       setVehicles((prevVehicles) =>
         prevVehicles.map((vehicle) =>
           vehicle[fromGroup]?.includes(name)
             ? {
                 ...vehicle,
-                [fromGroup]: [...vehicle[fromGroup]],
+                [fromGroup]: vehicle[fromGroup].filter((p) => p !== name),
               }
             : vehicle
         )
       );
     }
 
-    // toVehicleId와 toGroup으로 복사
     setVehicles((prevVehicles) =>
       prevVehicles.map((vehicle) => {
         if (vehicle.id === toVehicleId) {
@@ -137,6 +195,7 @@ function MainPage() {
     );
   };
 
+  // Remove Person in Vehicles's any Group
   const removePerson = (vehicleId, groupName, personName) => {
     setVehicles((prevVehicles) =>
       prevVehicles.map((vehicle) =>
@@ -165,12 +224,57 @@ function MainPage() {
     });
   };
 
+  const loadRecord = (recordIndex) => {
+    const record = savedRecords[recordIndex];
+    if (record) {
+      setVehicles(record.vehicles);
+      alert(`"${record.title}" 배차 기록이 불러와졌습니다.`);
+    }
+  };
+
+  const removeRecord = (recordIndex) => {
+    const updatedRecords = savedRecords.filter(
+      (_, index) => index !== recordIndex
+    );
+    try {
+      // SavedRecords 저장
+      saveToFile("savedRecords.json", updatedRecords);
+      console.log("SavedRecords saved successfully.");
+
+      setSavedRecords(updatedRecords);
+    } catch (err) {
+      console.error("Failed to save Records:", err);
+    }
+
+    alert("배차 기록이 삭제되었습니다!");
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="main-page">
         <header className="header">
           <h1>배차 관리 시스템</h1>
+          <button
+            className="toggle-navbar-btn"
+            onClick={toggleNavbar}
+            style={{
+              position: "fixed",
+              top: "10px",
+              left: "10px",
+              zIndex: 1100,
+            }}
+          >
+            {isNavbarVisible ? "닫기" : "메뉴"}
+          </button>
         </header>
+        <Navbar
+          isVisible={isNavbarVisible}
+          setIsNavbarVisible={setIsNavbarVisible}
+          savedRecords={savedRecords}
+          saveRecord={saveRecord}
+          loadRecord={loadRecord}
+          removeRecord={removeRecord}
+        />
         <div className="content">
           <div ref={captureRef} className="capture-area">
             <div className="vehicle-container">
@@ -191,12 +295,14 @@ function MainPage() {
               title="Drivers"
               people={drivers}
               setPeople={setDrivers}
+              saveData={saveDriver}
             />
             <PersonList
               type="passengers"
               title="Passengers"
               people={passengers}
               setPeople={setPassengers}
+              saveData={savePassenger}
             />
           </aside>
         </div>

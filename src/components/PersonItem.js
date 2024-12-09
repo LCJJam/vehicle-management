@@ -4,7 +4,7 @@ import "./PersonItem.css";
 
 const ItemType = "PERSON";
 
-const PersonItem = ({ name, from, group, movePerson }) => {
+const PersonItem = ({ name, from, group }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemType,
     item: { name, from, group },

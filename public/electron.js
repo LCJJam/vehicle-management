@@ -7,54 +7,21 @@ let mainWindow;
 const dataDir = path.join(app.getPath("userData"), "data");
 const driversPath = path.join(dataDir, "drivers.json");
 const passengersPath = path.join(dataDir, "passengers.json");
-const vehiclesPath = path.join(dataDir, "vehicles.json");
+const savedRecordsPath = path.join(dataDir, "savedRecords.json");
 
 const initializeFiles = () => {
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
-  const defaultDrivers = { drivers: [] };
-  const defaultPassengers = { passengers: [] };
-  const defaultVehicles = {
-    vehicles: [
-      {
-        title: "평일 오전",
-        data: [
-          {
-            id: "vehicle1",
-            title: "1 호차",
-            departureTime: "09:00",
-            arrivalTime: "10:30",
-            drivers: [],
-            firstGroup: [],
-            secondGroup: [],
-          },
-          {
-            id: "vehicle2",
-            title: "2 호차",
-            departureTime: "10:45",
-            arrivalTime: "12:15",
-            drivers: [],
-            firstGroup: [],
-            secondGroup: [],
-          },
-          {
-            id: "vehicle3",
-            title: "3 호차",
-            departureTime: "13:00",
-            arrivalTime: "14:30",
-            drivers: [],
-            firstGroup: [],
-            secondGroup: [],
-          },
-        ],
-      },
-    ],
-  };
+  const defaultDrivers = [];
+  const defaultPassengers = [];
+  const defaultSavedRecords = [];
 
+  // Drivers 파일 생성 또는 유지
   if (!fs.existsSync(driversPath)) {
     fs.writeFileSync(driversPath, JSON.stringify(defaultDrivers, null, 2));
   }
 
+  // Passengers 파일 생성 또는 유지
   if (!fs.existsSync(passengersPath)) {
     fs.writeFileSync(
       passengersPath,
@@ -62,8 +29,12 @@ const initializeFiles = () => {
     );
   }
 
-  if (!fs.existsSync(vehiclesPath)) {
-    fs.writeFileSync(vehiclesPath, JSON.stringify(defaultVehicles, null, 2));
+  // SavedRecords 파일 생성 또는 유지
+  if (!fs.existsSync(savedRecordsPath)) {
+    fs.writeFileSync(
+      savedRecordsPath,
+      JSON.stringify(defaultSavedRecords, null, 2)
+    );
   }
 };
 
@@ -109,40 +80,73 @@ app.whenReady().then(() => {
   });
 });
 
-// IPC 핸들러: 파일 읽기
-ipcMain.handle("read-file", async (event, type) => {
-  const filePath = getFilePath(type);
+ipcMain.handle("read-file", async (event, fileName) => {
   try {
+    const filePath = path.join(app.getPath("userData"), fileName);
+
+    // 파일 존재 여부 확인
+    if (!fs.existsSync(filePath)) {
+      console.log(`File not found: ${fileName}, returning default data.`);
+      return JSON.stringify([]); // 기본값 반환
+    }
+
+    // 파일 읽기
     const data = await fs.promises.readFile(filePath, "utf-8");
     return data;
   } catch (err) {
-    console.error(`Failed to read file for ${type}:`, err);
+    console.error("Failed to read file:", err);
     throw err;
   }
 });
 
-// IPC 핸들러: 파일 쓰기
-ipcMain.handle("write-file", async (event, type, content) => {
-  const filePath = getFilePath(type);
+ipcMain.handle("write-file", async (event, fileName, data) => {
   try {
-    await fs.promises.writeFile(filePath, content, "utf-8");
+    const filePath = path.join(app.getPath("userData"), fileName);
+
+    // 데이터 덮어쓰기
+    await fs.promises.writeFile(filePath, data, "utf-8");
     console.log(`Data written to ${filePath}`);
-    return true;
+    return { success: true };
   } catch (err) {
-    console.error(`Failed to write file for ${type}:`, err);
+    console.error("Failed to write file:", err);
     throw err;
   }
 });
 
-const getFilePath = (type) => {
-  switch (type) {
-    case "drivers":
-      return driversPath;
-    case "passengers":
-      return passengersPath;
-    case "vehicles":
-      return vehiclesPath;
-    default:
-      throw new Error(`Invalid file type: ${type}`);
-  }
-};
+// // IPC 핸들러: 파일 읽기
+// ipcMain.handle("read-file", async (event, type) => {
+//   const filePath = getFilePath(type);
+//   try {
+//     const data = await fs.promises.readFile(filePath, "utf-8");
+//     return data;
+//   } catch (err) {
+//     console.error(`Failed to read file for ${type}:`, err);
+//     throw err;
+//   }
+// });
+
+// // IPC 핸들러: 파일 쓰기
+// ipcMain.handle("write-file", async (event, type, content) => {
+//   const filePath = getFilePath(type);
+//   try {
+//     await fs.promises.writeFile(filePath, content, "utf-8");
+//     console.log(`Data written to ${filePath}`);
+//     return true;
+//   } catch (err) {
+//     console.error(`Failed to write file for ${type}:`, err);
+//     throw err;
+//   }
+// });
+
+// const getFilePath = (type) => {
+//   switch (type) {
+//     case "drivers":
+//       return driversPath;
+//     case "passengers":
+//       return passengersPath;
+//     case "vehicles":
+//       return vehiclesPath;
+//     default:
+//       throw new Error(`Invalid file type: ${type}`);
+//   }
+// };
