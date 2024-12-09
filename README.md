@@ -1,71 +1,64 @@
-# Getting Started with Create React App
+# Vehicle Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 프로젝트 소개
 
-## Available Scripts
+이 프로젝트는 Electron과 React를 사용하여 개발된 **배차 관리 시스템**입니다. 차량별로 운전자와 탑승자를 관리하며, 데이터를 저장하고 불러올 수 있는 기능을 제공합니다.
 
-In the project directory, you can run:
+![image](./image/dashboard.png)
 
-### `npm start`
+## 주요 기능
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **운전자 및 탑승자 관리**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   - 운전자와 탑승자를 추가, 삭제, 정렬.
+   - Drag & Drop으로 차량별 배차 그룹(운전자, 1차 인원, 2차 인원)에 배치 가능.
 
-### `npm test`
+2. **차량 및 배차 그룹 관리**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   - 각 차량별로 운전자, 1차 인원, 2차 인원을 그룹으로 관리.
+   - 출발 및 도착 시간을 수정 가능.
 
-### `npm run build`
+3. **배차 기록 저장 및 불러오기**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   - 배차 기록을 제목별로 저장하고, 불러오기 가능.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **데이터 저장**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   - JSON 파일을 활용하여 로컬에 데이터 저장.
 
-### `npm run eject`
+5. **사용자 친화적 UI**
+   - 직관적인 Drag & Drop UX.
+   - 네비게이션 바로 배차 기록을 관리.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 설치 및 실행
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 필요한 환경
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Node.js
+- npm 또는 yarn
+- Electron
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 설치
 
-## Learn More
+```bash
+git clone https://github.com/your-repo/vehicle-management.git
+cd vehicle-management
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Test 환경
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm run build && npm run electron-dev
+```
 
-### Code Splitting
+### 배포
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+## mac OS
+npm run dist
 
-### Analyzing the Bundle Size
+## win OS
+npx @electron/packager . MyApp --platform=win32 --arch=x64 --out=dist --overwrite
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# vehicle-management
+```
